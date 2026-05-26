@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEM Connector - Marketplace</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/marketplace.css">
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full" style="background:#000; color:#fff; overflow-y:auto;"><!-- Background Glow -->
+  <div class="background-glow" style="top:10%; left:5%;"></div>
+  <div class="background-glow" style="bottom:10%; right:5%;"></div><!-- Top Navigation -->
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06]" style="background:rgba(0,0,0,0.85); backdrop-filter:blur(16px);">
+   <nav class="flex items-center justify-between h-16 px-4 lg:px-8"><!-- Left: Logo -->
+    <div class="flex items-center gap-3"><a href="#" class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center"><span style="color:#000;font-weight:800;font-size:14px;">IC</span>
+      </div><span id="navPlatformName" class="text-lg font-bold tracking-tight hidden sm:block">IEM Connector</span> </a>
+    </div><!-- Center: Nav Links (Desktop) -->
+    <div class="hidden lg:flex items-center gap-8"><a href="dashboard.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Dashboard</a> <a href="events.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Events</a> <a href="teams.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Teams</a> <a href="leaderboard.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Leaderboards</a> <a href="resources.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Resources</a> <a href="marketplace.html" class="nav-link text-sm font-medium text-white text-white">Marketplace</a>
+    </div><!-- Right: Search and Profile -->
+    <div class="flex items-center gap-4">
+     <div class="relative hidden sm:flex"><i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" style="width:16px;height:16px;"></i> <input type="text" id="searchInput" placeholder="Search products..." class="search-bar pl-10">
+     </div><button class="text-white/50 hover:text-white transition" aria-label="Profile"> <i data-lucide="user-circle" style="width:24px;height:24px;"></i> </button>
+    </div>
+   </nav>
+  </header><!-- Main Content -->
+  <main class="relative z-10 px-4 lg:px-8 py-8 pt-24" style="min-height:100%;">
+   <div class="max-w-7xl mx-auto"><!-- Page Header -->
+    <div class="mb-12 fade-in">
+     <div class="flex items-center gap-2 mb-4">
+      <div class="glow-dot"></div><span class="text-xs font-medium text-white/50 uppercase tracking-widest">Campus Marketplace</span>
+     </div>
+     <h1 id="pageTitle" class="text-4xl sm:text-5xl font-bold tracking-tight mb-2">Campus Marketplace</h1>
+     <p id="pageSubtitle" class="text-white/50 text-lg">Buy and sell useful items within your college community.</p>
+    </div><!-- Post Product Section -->
+    <div class="mb-12">
+     <div class="post-card rounded-2xl p-8" style="background:#111; border:1px solid rgba(255,255,255,0.06);">
+      <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><i data-lucide="plus-circle" style="width:20px;height:20px;"></i> Post a Product</h2>
+      <form onsubmit="handlePostProduct(event)" class="space-y-4">
+       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><!-- Product Name -->
+        <div><label for="productName" class="block text-sm font-medium text-white/70 mb-2">Product Name</label> <input type="text" id="productName" placeholder="e.g., Engineering Drawing Kit" required class="input-field w-full px-4 py-2.5 text-sm text-white rounded-lg">
+         <div id="nameError" class="error-message hidden"></div>
+        </div><!-- Price -->
+        <div><label for="price" class="block text-sm font-medium text-white/70 mb-2">Price (₹)</label> <input type="number" id="price" placeholder="350" min="1" required class="input-field w-full px-4 py-2.5 text-sm text-white rounded-lg">
+         <div id="priceError" class="error-message hidden"></div>
+        </div>
+       </div><!-- Category -->
+       <div><label for="category" class="block text-sm font-medium text-white/70 mb-2">Category</label>
+        <div class="relative"><i data-lucide="tag" class="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" style="width:18px;height:18px;"></i> <select id="category" required class="input-field w-full pl-10 pr-4 py-2.5 text-sm text-white rounded-lg appearance-none cursor-pointer"> <option value="">Select Category</option> <option value="Lab Coat">Lab Coat</option> <option value="Books">Books</option> <option value="Drawing Tools">Drawing Tools</option> <option value="Electronics">Electronics</option> <option value="Courses">Courses</option> <option value="Other">Other</option> </select>
+        </div>
+       </div><!-- Description -->
+       <div><label for="description" class="block text-sm font-medium text-white/70 mb-2">Description</label> <textarea id="description" placeholder="Describe your product..." rows="3" required class="input-field w-full px-4 py-2.5 text-sm text-white rounded-lg resize-none"></textarea>
+       </div><!-- Image URL (Optional) -->
+       <div><label for="imageUrl" class="block text-sm font-medium text-white/70 mb-2">Image URL (Optional)</label> <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg" class="input-field w-full px-4 py-2.5 text-sm text-white rounded-lg">
+       </div><button type="submit" class="btn-primary w-full py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 mt-6"> <i data-lucide="send" style="width:16px;height:16px;"></i> Post Product </button>
+      </form>
+     </div>
+    </div><!-- Category Filter -->
+    <div class="mb-8">
+     <h3 class="text-sm font-medium text-white/70 mb-4">Filter by Category</h3>
+     <div class="flex flex-wrap gap-3"><button class="filter-btn active" onclick="filterProducts('all')">All</button> <button class="filter-btn" onclick="filterProducts('Books')">Books</button> <button class="filter-btn" onclick="filterProducts('Lab Coat')">Lab Coat</button> <button class="filter-btn" onclick="filterProducts('Drawing Tools')">Drawing Tools</button> <button class="filter-btn" onclick="filterProducts('Electronics')">Electronics</button> <button class="filter-btn" onclick="filterProducts('Courses')">Courses</button> <button class="filter-btn" onclick="filterProducts('Other')">Other</button>
+     </div>
+    </div><!-- Products Grid -->
+    <div>
+     <h3 class="text-lg font-bold mb-6">Available Products</h3>
+     <div id="productsContainer" class="marketplace-grid"></div>
+     <div id="emptyState" class="text-center py-12 hidden"><i data-lucide="inbox" style="width:48px;height:48px;" class="mx-auto text-white/20 mb-4"></i>
+      <p class="text-white/50">No products found in this category.</p>
+     </div>
+    </div>
+   </div>
+  </main>
+  
+  <script src="js/marketplace.js"></script>
+</body>
+</html>

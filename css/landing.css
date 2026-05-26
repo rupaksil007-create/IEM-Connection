@@ -1,0 +1,219 @@
+:root {
+    --neon-green: #00FF66;
+    --dark-bg: #000000;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glow-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none; /* We'll use a custom cursor */
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    height: 500vh; /* 5 sections of 100vh each */
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#ui-layer {
+    position: relative;
+    z-index: 2;
+}
+
+section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.glow-text {
+    color: var(--neon-green);
+    text-shadow: var(--glow-shadow);
+    text-transform: uppercase;
+    letter-spacing: 0.3rem;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 10vw, 6rem);
+    margin-bottom: 1.5rem;
+    line-height: 1;
+}
+
+h2 {
+    font-size: clamp(1.5rem, 6vw, 3.5rem);
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/* Custom Cursor */
+#cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--neon-green);
+    position: fixed;
+    border-radius: 50%;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+#cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--neon-green);
+    position: fixed;
+    border-radius: 50%;
+    z-index: 1000;
+    pointer-events: none;
+    transition: transform 0.15s ease-out;
+}
+
+/* Scroll Progress */
+#scroll-indicator {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 100;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--neon-green);
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.dot.active {
+    background: var(--neon-green);
+    box-shadow: var(--glow-shadow);
+}
+
+/* Login Card */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 2px; /* Brutalist/Hacker feel */
+    padding: 3rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+    animation: scanLine 3s infinite linear;
+}
+
+@keyframes scanLine {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(5000%); }
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.input-field {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    padding: 1rem;
+    color: #fff;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    border-color: var(--neon-green);
+}
+
+.login-btn {
+    background: transparent;
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    padding: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    cursor: none;
+    transition: all 0.3s;
+}
+
+.login-btn:hover {
+    background: var(--neon-green);
+    color: #000;
+    box-shadow: var(--glow-shadow);
+}
+
+.card-footer {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.card-footer a {
+    color: var(--neon-green);
+    text-decoration: none;
+}
+
+/* Transitions */
+.fade-up {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.8s ease-out;
+}
+
+.fade-up.visible {
+    transform: translateY(0);
+    opacity: 1;
+}

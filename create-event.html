@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host an Event - IEM Help</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">IEM Help</div>
+        <ul class="nav-links">
+            <!-- Populated by JS -->
+        </ul>
+    </nav>
+
+    <div class="container form-container">
+        <h2>Host an Event</h2>
+        <form id="create-event-form">
+            <div class="form-group">
+                <label>Event Title</label>
+                <input type="text" name="title" required>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="datetime-local" name="date" required>
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" name="location" required>
+            </div>
+            <div class="form-group">
+                <label>Team Size</label>
+                <input type="number" name="team_size" min="1" required>
+            </div>
+            <div class="form-group">
+                <label>Event Type</label>
+                <select name="type">
+                    <option value="College">College</option>
+                    <option value="Intercollege">Intercollege</option>
+                </select>
+            </div>
+            <button type="submit">Create Event</button>
+        </form>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/events.js"></script>
+</body>
+</html>

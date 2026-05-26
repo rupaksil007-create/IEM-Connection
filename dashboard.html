@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEM Connector Dashboard</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="css/dashboard.css">
+ </head>
+ <body class="h-full" style="background:#000; color:#fff;"><!-- Mobile Sidebar Overlay -->
+  <div id="sidebarOverlay" class="mobile-overlay fixed inset-0 z-40 hidden opacity-0 lg:hidden" onclick="toggleSidebar()"></div><!-- Top Navigation -->
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06]" style="background:rgba(0,0,0,0.85); backdrop-filter:blur(16px);">
+   <nav class="flex items-center justify-between h-16 px-4 lg:px-8"><!-- Left: Logo + Mobile Toggle -->
+    <div class="flex items-center gap-3"><button class="lg:hidden p-2 rounded-lg hover:bg-white/10 transition" onclick="toggleSidebar()" aria-label="Toggle menu"> <i data-lucide="menu" style="width:20px;height:20px;"></i> </button> <a href="#" class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center"><span style="color:#000;font-weight:800;font-size:14px;">IC</span>
+      </div><span id="navPlatformName" class="text-lg font-bold tracking-tight hidden sm:block">IEM Connector</span> </a>
+    </div><!-- Center: Nav Links (Desktop) -->
+    <div class="hidden lg:flex items-center gap-8"><a href="dashboard.html" class="nav-link active text-sm font-medium text-white">Dashboard</a> <a href="events.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Events</a> <a href="teams.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Teams</a> <a href="leaderboard.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Leaderboards</a> <a href="resources.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Resources</a> <a href="marketplace.html" class="nav-link text-sm font-medium text-white/50 hover:text-white">Marketplace</a>
+    </div><!-- Right: Search + Profile -->
+    <div class="flex items-center gap-3">
+     <div class="relative hidden md:block"><i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" style="width:16px;height:16px;"></i> <input type="text" placeholder="Search..." class="search-input rounded-full pl-9 pr-4 py-2 text-sm text-white w-48 lg:w-56" aria-label="Search">
+     </div><button class="md:hidden p-2 rounded-lg hover:bg-white/10 transition" aria-label="Search"> <i data-lucide="search" style="width:18px;height:18px;"></i> </button> <button class="relative p-1 rounded-full" aria-label="Profile">
+      <div class="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"><i data-lucide="user" style="width:16px;height:16px;color:#ccc;"></i>
+      </div><span class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-black"></span> </button>
+    </div>
+   </nav>
+  </header><!-- Layout Wrapper -->
+  <div class="flex h-full pt-16"><!-- Sidebar -->
+   <!-- Main Content -->
+   <main class="flex-1 overflow-y-auto" style="height:calc(100% - 0px);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10"><!-- Welcome Banner -->
+     <section class="fade-in">
+      <div class="relative overflow-hidden rounded-2xl p-6 sm:p-8" style="background:#111;">
+       <div class="absolute inset-0 opacity-[0.03]" style="background-image:radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+       <div class="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+         <div class="flex items-center gap-2 mb-2">
+          <div class="glow-dot"></div><span class="text-xs font-medium text-white/50 uppercase tracking-widest">Live Dashboard</span>
+         </div>
+         <h1 id="welcomeText" class="text-2xl sm:text-3xl font-bold tracking-tight">Welcome back, Student!</h1>
+         <p class="text-white/40 mt-1 text-sm">Here's what's happening in your campus network today.</p>
+        </div>
+        <div class="flex gap-3">
+         <div class="text-center px-4 py-2 rounded-xl" style="background:rgba(255,255,255,0.06);">
+          <div class="text-xl font-bold">
+           6
+          </div>
+          <div class="text-[10px] text-white/40 uppercase tracking-wider">
+           Events
+          </div>
+         </div>
+         <div class="text-center px-4 py-2 rounded-xl" style="background:rgba(255,255,255,0.06);">
+          <div class="text-xl font-bold">
+           5
+          </div>
+          <div class="text-[10px] text-white/40 uppercase tracking-wider">
+           Teams
+          </div>
+         </div>
+         <div class="text-center px-4 py-2 rounded-xl" style="background:rgba(255,255,255,0.06);">
+          <div class="text-xl font-bold">
+           7
+          </div>
+          <div class="text-[10px] text-white/40 uppercase tracking-wider">
+           Resources
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Upcoming Events -->
+     <section class="fade-in stagger-1">
+      <div class="flex items-center justify-between mb-5">
+       <h2 class="text-lg font-semibold tracking-tight flex items-center gap-2"><i data-lucide="calendar" style="width:20px;height:20px;color:#ccc;"></i> Upcoming Events</h2><a href="events.html" class="text-xs text-white/40 hover:text-white transition">View all →</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"><!-- Event 1 -->
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-start justify-between mb-3"><span class="text-[10px] font-semibold uppercase tracking-widest text-white/30 bg-white/[0.06] px-2.5 py-1 rounded-full">Tech Fest</span> <span class="text-xs text-white/40">13-15 March</span>
+        </div>
+        <h3 class="font-semibold text-base mb-1">INNOVACION 2026</h3>
+        <div class="space-y-1.5 mt-3 text-xs text-white/40">
+         <div class="flex items-center gap-2">
+          <i data-lucide="map-pin" style="width:13px;height:13px;"></i> IEM Management Building
+         </div>
+         <div class="flex items-center gap-2">
+          <i data-lucide="users" style="width:13px;height:13px;"></i> Open to All
+         </div>
+        </div><button class="btn-primary w-full mt-4 py-2 rounded-lg text-xs font-semibold">Register Now</button>
+       </div><!-- Event 2 -->
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-start justify-between mb-3"><span class="text-[10px] font-semibold uppercase tracking-widest text-white/30 bg-white/[0.06] px-2.5 py-1 rounded-full">College Event</span> <span class="text-xs text-white/40">17 March</span>
+        </div>
+        <h3 class="font-semibold text-base mb-1">CodeQuest 2026</h3>
+        <div class="space-y-1.5 mt-3 text-xs text-white/40">
+         <div class="flex items-center gap-2">
+          <i data-lucide="map-pin" style="width:13px;height:13px;"></i> IEM Management Building
+         </div>
+         <div class="flex items-center gap-2">
+          <i data-lucide="users" style="width:13px;height:13px;"></i> 2 members
+         </div>
+        </div><button class="btn-primary w-full mt-4 py-2 rounded-lg text-xs font-semibold">Register Now</button>
+       </div><!-- Event 3 -->
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-start justify-between mb-3"><span class="text-[10px] font-semibold uppercase tracking-widest text-white/30 bg-white/[0.06] px-2.5 py-1 rounded-full">Competition</span> <span class="text-xs text-white/40">20 March</span>
+        </div>
+        <h3 class="font-semibold text-base mb-1">PROMPTX - Design with AI</h3>
+        <div class="space-y-1.5 mt-3 text-xs text-white/40">
+         <div class="flex items-center gap-2">
+          <i data-lucide="map-pin" style="width:13px;height:13px;"></i> Online
+         </div>
+         <div class="flex items-center gap-2">
+          <i data-lucide="users" style="width:13px;height:13px;"></i>Individual
+         </div>
+        </div><button class="btn-primary w-full mt-4 py-2 rounded-lg text-xs font-semibold">Register Now</button>
+       </div>
+      </div>
+     </section><!-- Teams Looking for Members -->
+     <section class="fade-in stagger-2">
+      <div class="flex items-center justify-between mb-5">
+       <h2 class="text-lg font-semibold tracking-tight flex items-center gap-2"><i data-lucide="users" style="width:20px;height:20px;color:#ccc;"></i> Teams Looking for Members</h2><a href="#" class="text-xs text-white/40 hover:text-white transition">Browse all →</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-center gap-3 mb-3">
+         <div class="w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center text-lg font-bold">
+          ⚡
+         </div>
+         <div>
+          <h3 class="font-semibold text-sm">Team Nexus</h3>
+          <p class="text-[11px] text-white/40">Code Sprint 2025</p>
+         </div>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mt-3"><span class="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/50">React</span> <span class="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/50">Node.js</span> <span class="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/50">UI/UX</span>
+        </div><button class="btn-outline w-full mt-4 py-2 rounded-lg text-xs font-semibold">Join Team</button>
+       </div>
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-center gap-3 mb-3">
+         <div class="w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center text-lg font-bold">
+          🤖
+         </div>
+         <div>
+          <h3 class="font-semibold text-sm">RoboKnights</h3>
+          <p class="text-[11px] text-white/40">Robo Wars</p>
+         </div>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mt-3"><span class="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/50">Arduino</span> <span class="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/50">CAD</span> <span class="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/50">Python</span>
+        </div><button class="btn-outline w-full mt-4 py-2 rounded-lg text-xs font-semibold">Join Team</button>
+       </div>
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-center gap-3 mb-3">
+         <div class="w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center text-lg font-bold">
+          🧠
+         </div>
+         <div>
+          <h3 class="font-semibold text-sm">DataMinds</h3>
+          <p class="text-[11px] text-white/40">AI/ML Bootcamp</p>
+         </div>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mt-3"><span class="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/50">TensorFlow</span> <span class="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/50">Data Viz</span>
+        </div><button class="btn-outline w-full mt-4 py-2 rounded-lg text-xs font-semibold">Join Team</button>
+       </div>
+      </div>
+     </section><!-- Trending Resources -->
+     <section class="fade-in stagger-3">
+      <div class="flex items-center justify-between mb-5">
+       <h2 class="text-lg font-semibold tracking-tight flex items-center gap-2"><i data-lucide="book-open" style="width:20px;height:20px;color:#ccc;"></i> Trending Resources</h2><a href="resources.html" class="text-xs text-white/40 hover:text-white transition">See library →</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-center gap-2 mb-2"><i data-lucide="file-text" style="width:16px;height:16px;color:#ccc;"></i> <span class="text-[10px] uppercase tracking-widest text-white/30 font-semibold">JAVA</span>
+        </div>
+        <h3 class="font-semibold text-sm mb-1">Java Programming Notes</h3>
+        <p class="text-[11px] text-white/40">Uploaded by Rohan Verma</p><button class="btn-primary w-full mt-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5"> <i data-lucide="download" style="width:13px;height:13px;"></i> Download </button>
+       </div>
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-center gap-2 mb-2"><i data-lucide="file-text" style="width:16px;height:16px;color:#ccc;"></i> <span class="text-[10px] uppercase tracking-widest text-white/30 font-semibold">CSE Documentation</span>
+        </div>
+        <h3 class="font-semibold text-sm mb-1">Computer Science and Engineering Career Report</h3>
+        <p class="text-[11px] text-white/40">Uploaded by Ananya Singh</p><button class="btn-primary w-full mt-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5"> <i data-lucide="download" style="width:13px;height:13px;"></i> Download </button>
+       </div>
+       <div class="card-hover rounded-xl p-5" style="background:#111;">
+        <div class="flex items-center gap-2 mb-2"><i data-lucide="file-text" style="width:16px;height:16px;color:#ccc;"></i> <span class="text-[10px] uppercase tracking-widest text-white/30 font-semibold">PYTHON</span>
+        </div>
+        <h3 class="font-semibold text-sm mb-1">Python Programming Notes</h3>
+        <p class="text-[11px] text-white/40">Uploaded by Vikram Desai</p><button class="btn-primary w-full mt-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5"> <i data-lucide="download" style="width:13px;height:13px;"></i> Download </button>
+       </div>
+      </div>
+     </section><!-- Marketplace Highlights -->
+    <section class="fade-in stagger-4">
+  <div class="flex items-center justify-between mb-5">
+    <h2 class="text-lg font-semibold tracking-tight flex items-center gap-2">
+      <i data-lucide="shopping-bag" style="width:20px;height:20px;color:#ccc;"></i>
+      Marketplace Highlights
+    </h2>
+    <a href="marketplace.html" class="text-xs text-white/40 hover:text-white transition">
+      Shop all →
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+
+    <!-- Card 1 -->
+    <div class="card-hover rounded-xl p-5" style="background:#111;">
+      <h3 class="font-semibold text-sm">Engineering Drawing Tools Set</h3>
+
+      <div class="flex items-center justify-between mt-1">
+        <span class="text-lg font-bold">₹700</span>
+        <span class="text-[11px] text-white/40">by Rahul Roy</span>
+      </div>
+
+      <button class="btn-outline w-full mt-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+        <i data-lucide="message-circle" style="width:13px;height:13px;"></i>
+        Contact Seller
+      </button>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card-hover rounded-xl p-5" style="background:#111;">
+      <h3 class="font-semibold text-sm">Arduino Kit</h3>
+
+      <div class="flex items-center justify-between mt-1">
+        <span class="text-lg font-bold">₹800</span>
+        <span class="text-[11px] text-white/40">by Sarah Khan</span>
+      </div>
+
+      <button class="btn-outline w-full mt-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+        <i data-lucide="message-circle" style="width:13px;height:13px;"></i>
+        Contact Seller
+      </button>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card-hover rounded-xl p-5" style="background:#111;">
+      <h3 class="font-semibold text-sm">Multimeter Digital</h3>
+
+      <div class="flex items-center justify-between mt-1">
+        <span class="text-lg font-bold">₹200</span>
+        <span class="text-[11px] text-white/40">by Arjun Desai</span>
+      </div>
+
+      <button class="btn-outline w-full mt-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+        <i data-lucide="message-circle" style="width:13px;height:13px;"></i>
+        Contact Seller
+      </button>
+    </div>
+
+  </div>
+</section><!-- Footer spacer -->
+     <div class="h-8"></div>
+    </div>
+   </main>
+  </div>
+  <script src="js/dashboard.js"></script>
+  
+ </body>
+</html>

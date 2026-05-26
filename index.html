@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEM Connector | The Campus Operating System</title>
+    
+    <!-- Meta Tags for SEO -->
+    <meta name="description" content="IEM Connector is the ultimate full-stack platform for campus collaboration, events, and resources.">
+    
+    <!-- Design Resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Core Styles -->
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <!-- Scroll Indicator Dots -->
+    <div id="scroll-indicator">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <!-- UI Overlay Layer -->
+    <div id="ui-layer">
+        
+        <!-- Section 1: Hero -->
+        <section id="hero" class="active">
+            <h1 class="glow-text">IEM CONNECTOR</h1>
+            <p>The central operating system for campus collaboration. Connect, build, and scale your academic journey.</p>
+        </section>
+
+        <!-- Section 2: Auth -->
+        <section id="auth">
+            <h2 class="glow-text">Secure Access</h2>
+            <p>Centralized control for every student. Encrypted data streams ensure your academic records and projects remain private.</p>
+        </section>
+
+        <!-- Section 3: Events -->
+        <section id="events">
+            <h2 class="glow-text">Synaptic Links</h2>
+            <p>Discover events. Forge elite teams. Real-time networking nodes connecting talent across every department.</p>
+        </section>
+
+        <!-- Section 4: Marketplace -->
+        <section id="marketplace">
+            <h2 class="glow-text">Resource Exchange</h2>
+            <p>Access the knowledge vault. A peer-to-peer marketplace for materials, insights, and technical assets.</p>
+        </section>
+
+        <!-- Section 5: Matrix Login -->
+        <section id="matrix">
+            <div class="glass-card">
+                <h2 class="glow-text" style="font-size: 1.5rem; margin-bottom: 2rem;">Terminal Login</h2>
+                <form class="login-form" id="loginForm">
+                    <input type="email" id="email" class="input-field" placeholder="STUDENT EMAIL" required>
+                    <input type="password" id="password" class="input-field" placeholder="SECURITY KEY" required>
+                    <button type="submit" class="login-btn">Initialize Session</button>
+                    <div id="login-message" style="margin-top: 1rem; font-size: 0.8rem; color: #ff3333;"></div>
+                </form>
+                <script>
+                    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const email = document.getElementById('email').value;
+                        const password = document.getElementById('password').value;
+                        const messageDiv = document.getElementById('login-message');
+
+                        try {
+                            const response = await fetch('/api/login', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ email, password })
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                // Save user data to localStorage (consistent with your other JS files)
+                                localStorage.setItem('user', JSON.stringify(data.user));
+                                window.location.href = 'dashboard.html';
+                            } else {
+                                messageDiv.textContent = data.error || 'Login failed';
+                            }
+                        } catch (err) {
+                            messageDiv.textContent = 'Connection error. Is the server running?';
+                        }
+                    });
+                </script>
+                <div class="card-footer">
+                    New entity? <a href="signup.html">Register Terminal</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 3D Engines & Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom Landing Logic -->
+    <script src="js/landing.js"></script>
+
+</body>
+</html>
