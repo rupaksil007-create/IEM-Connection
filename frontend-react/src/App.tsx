@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Globe, 
   Github, 
@@ -13,6 +13,7 @@ import {
   ShoppingBag,
   ArrowUpRight
 } from 'lucide-react';
+import Preloader3D from './components/Preloader3D';
 
 // --- 🌌 THREE.JS GALAXY COMPONENT ---
 const GalaxyCanvas = () => {
@@ -416,16 +417,36 @@ const Footer = () => {
 };
 
 export default function App() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
-    <main className="relative min-h-screen selection:bg-neonGreen selection:text-black">
-      <GrainOverlay />
-      <Navbar />
-      <Hero />
-      <About />
-      <FeatureVideo />
-      <SystemCore />
-      <Features />
-      <Footer />
+    <main className="relative min-h-screen selection:bg-neonGreen selection:text-black bg-black">
+      <AnimatePresence mode="wait">
+        {!isLoaded && (
+          <Preloader3D 
+            onComplete={() => setIsLoaded(true)} 
+            key="preloader" 
+          />
+        )}
+      </AnimatePresence>
+
+      {isLoaded && (
+        <motion.div
+          key="main-content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <GrainOverlay />
+          <Navbar />
+          <Hero />
+          <About />
+          <FeatureVideo />
+          <SystemCore />
+          <Features />
+          <Footer />
+        </motion.div>
+      )}
     </main>
   );
 }
